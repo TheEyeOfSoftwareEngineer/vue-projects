@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 11</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          listArr: ['1', '2', '3'],
+          listObj: {
+            '1': 'one',
+            '2': 'two',
+            '3': 'three'
+          },
+        }
+      },
+      methods: {
+        addItem() {
+          // 1. 数组的变更函数: shift, unshift, push, pop, splice, sort, reverse
+          // 2. 直接替换数组
+          // 3. 直接更新数组的内容  (vue3)
+          // 4. 直接添加对象的内容 （vue3)
+          this.listArr.push(this.listArr.length + 1)
+          this.listObj[this.listArr.length] = 'new'
+        },
+      },
+      template: `
+        <template v-for="(value, key, index) in listObj" :key="key">
+          <div v-if="key !== '1'">
+            {{ key }}: {{ value }}
+          </div>
+        </template>
+
+        <div v-for="(item,index) in listArr" :key="index">
+          {{ item }}
+        </div>
+
+        <div v-for="(value, key, index) in listObj" :key="key">
+          {{ value }} {{key}} {{index}} 
+        </div>
+
+        <div v-for="item in 10">{{item}}</div> 
+        
+        <button @click="addItem">Add</button>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
