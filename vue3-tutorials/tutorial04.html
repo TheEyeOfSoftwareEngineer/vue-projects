@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 4</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          list: [],
+          newItem: '',
+        }
+      },
+      methods: {
+        addItem() {
+          this.list.push(this.newItem)
+          this.newItem = ''
+        },
+        removeItem(index) {
+          this.list.splice(index, 1)
+        },
+      },
+      template: `
+        <div>
+          <input v-model="newItem">
+          <button 
+            :title="newItem"
+            @click="addItem"
+          >
+            Add Item
+          </button>
+          <ul>
+            <todo-item v-for="(item, index) of list" :key="index" :item="item" @remove="removeItem(index)">
+            </todo-item>
+          </ul>
+        </div>
+      `
+    })
+
+    app.component('todo-item', {
+      props: ['item'],
+      template: `
+        <li>
+          {{item}}
+          <button
+            @click="$emit('remove')"
+          >
+            Remove
+          </button>
+        </li>
+      `
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>
