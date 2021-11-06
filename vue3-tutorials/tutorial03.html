@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 2</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          list: [],
+          newItem: '',
+        }
+      },
+      methods: {
+        addItem() {
+          this.list.push(this.newItem)
+          this.newItem = ''
+        },
+        removeItem(index) {
+          this.list.splice(index, 1)
+        },
+      },
+      template: `
+        <div>
+          <input v-model="newItem">
+          <button @click="addItem">Add Item</button>
+          <ul>
+            <li v-for="(item, index) of list">
+              {{item}}
+            </li>
+          </ul>
+        </div>
+      `
+    }).mount('#app')
+  </script>
+</body>
+</html>
