@@ -13,18 +13,14 @@
     Vue.createApp({
       data() {
         return {
-          message: 'Hello Vue!'
-        }
-      },
-      methods: {
-        handleReverse() {
-          this.message = this.message.split('').reverse().join('')
+          message: 'Hello Vue!',
+          show: true,
         }
       },
       template: `
         <div>
-          <h1>{{ message }}</h1>
-          <button @click="handleReverse">reverse</button>
+          <h1 v-show="show">{{ message }}</h1>
+          <button @click="show = !show">show/hide</button>
         </div>
       `
     }).mount('#app')
