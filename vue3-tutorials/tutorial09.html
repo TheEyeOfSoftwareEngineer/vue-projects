@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 8</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .red {
+      color: red;
+    }
+    .green {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          color: 'red',
+          // 这里使用object的时候red和green表示类名称，而后面的布尔值表示是否添加该类到元素上
+          colorObject: {red: true, green: true},
+          colorArray: ['red', 'green', {brown: true}],
+          styleString: 'color: yellow',
+          styleObject: {
+            color: 'yellow',
+            background: 'orange',
+          },
+          styleArray: ['color: yellow',]
+        }
+      },
+      template: `
+        <div :class="color">Hello world</div>
+        <div :class="colorObject">Hello world</div>
+        <div :class="colorArray">Hello world</div>
+        <my-component :class="color"></my-component>
+        <div :style="styleString">
+          hello world  
+        </div>
+        <div :style="styleObject">
+          hello world
+        </div>
+        div :style="styleArray">
+          hello world
+        </div>
+      `
+    })
+    app.component('my-component', {
+      template: `
+        <div :class="$attrs.class">one</div>
+        <div :class="$attrs.class">two</div>
+      `
+    })
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
