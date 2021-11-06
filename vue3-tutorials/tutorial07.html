@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 6</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'Hello Vue!',
+          show: true,
+          name: 'title',
+          event: 'click',
+        }
+      },
+      methods: {
+        handleClcik(e) {
+          // e.preventDefault()
+          this.show = !this.show
+        }
+      },
+      template: `
+        <div>
+          <h1 v-html="message">1</h1>
+          <h1 v-once>{{ message }}</h1>
+          <h1 v-if="show">{{ message }}</h1>
+          <h1 v-on:click="handleClick" v-bind:title="message">click</h1>
+          <h1 @click="handleClick" :title="message">click</h1>
+          <h1 @[click]="handleClick" :[name]="message">click</h1>
+          <form action="http:/www.google.com" @click.prevent="handleClick">
+            <button type="submit">submit</button>
+          </form>
+        </div>
+      `
+    })
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
