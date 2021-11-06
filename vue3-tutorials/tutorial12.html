@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 12</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 事件修饰符：stop, prevent, capture, self, once, passive
+    // 按键修饰符：.enter, .tab, .esc, .up, .down, .left, .right, .delete
+    // 鼠标修饰符：.left, .right, .middle,
+    // .exact
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 0,
+        }
+      },
+      methods: {
+        handleClickTwo(num) {
+          this.count += num
+        }, 
+        handleClickOne() {
+          this.count += 1
+        },
+        handleClickThree(num, event) {
+          this.count -= num
+          console.log(event)
+        },
+        handleDivClick() {
+          alert("123")
+        },
+        handleKeyboard() {
+          console.log("keyboard event")
+        }
+      },
+      template: `
+        <h1>count: {{ count }}</h1>
+        <button @click="handleClickOne">Click me</button>
+        <button @click="handleClickTwo(2)">Click me</button>
+        <button @click="handleClickThree(1, $event)">Click me</button>
+        <button @click="count += 1">Click me</button>
+        <button @click="handleClickOne(), handleClickTwo(2)">Click me</button>
+
+        <div @click="handleDivClick">
+          <button @click.stop="handleClickOne">click</button>
+        </div>
+
+        <div @click.self="handleDivClick">
+          {{count}}
+          <button @click.stop="handleClickOne">click</button>
+        </div>
+
+        <input @keydown="handleKeyboard" />
+        <input @keydown.enter="handleKeyboard" />
+        <input @click.left="handleKeyboard" />
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
