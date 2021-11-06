@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 8</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      // data | methods | computed | watch
+      data() {
+        return {
+          message: 'Hello Vue!',
+          count: 1,
+          price: 5,
+        }
+      },
+      methods: {
+        changeMessage() {
+          this.message = 'Hello Vue.js!'
+        },
+        formatMessage(message) {
+          return message.toUpperCase()
+        }
+      },
+      computed: {
+        // computed properties only run when the related data changes
+        total() {
+          return this.count * this.price
+        }
+      },
+      watch: {
+        // price changes then run this function
+        price(curent, prev) {
+          setTimeout(() => {
+            console.log("price change")
+          }, 2000)
+        }
+      },
+      template: `
+        <div>
+          <div @click="changeMessage">{{formatString(message)}}</div>
+          <div>{{total}}</div>
+        </div>
+      `
+    })
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
