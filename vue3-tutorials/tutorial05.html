@@ -19,7 +19,12 @@
         return {
           message: 'Hello Vue!'
         }
-      }
+      },
+      template: `
+        <div>
+          <h1>{{ message }}</h1>
+        </div>
+      `
     })
 
     // vm 代表 vue 应用的根组件
