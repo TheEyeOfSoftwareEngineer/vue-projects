@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 14</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 下面是局部组件
+    const Counter = {
+      data() {
+        return {
+          count: 0
+        }
+      },
+      template: `
+        <div>
+          <button @click="count++">{{ count }}</button>
+        </div>
+      `
+    }
+
+    const HelloWorld = {
+      template: `
+        <div>
+          <h1>Hello World</h1>          
+        </div>
+      `
+    }
+
+    // 组件的定义及复用性
+    // 全局组件：定义了处处使用的组件，可以在任何地方使用，但是性能会比较差
+    const app = Vue.createApp({
+      components: {
+        Counter,
+        HelloWorld,
+      },
+      template: `
+        <counter></counter>
+        <hello-world></hello-world>
+
+        <div>
+          <hello></hello>
+          <world></world>  
+        </div>
+      `
+    })
+
+    
+
+    // 下面是全局组件
+    app.component('hello', {
+      template: `
+        <div>
+          <h1>Hello</h1>
+        </div>
+      `
+    })
+
+    app.component('world', {
+      template: `
+        <div>
+          <h1>World</h1>
+        </div>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
