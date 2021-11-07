@@ -12,6 +12,7 @@
 
   <script>
     // slot数据作用域：哪里调用就使用哪里的数据，在父组件中调用就直接使用父组件中对应的参数数据，在子组件中调用则直接使用子组件中对应的参数数据
+    // 具名插槽 named slot
     const app = Vue.createApp({
       data() {
         return {
@@ -19,33 +20,25 @@
         }
       },
       template: `
-        <my-form>
-          <div>Submit</div>  
-        </my-form>
-        <my-form>
-          <button>Sumbmit</button>
-        </my-form>
-        <my-form>          
-        </my-form>
+        <layout>
+          <template v-slot:header>
+            <div>header</div>
+          </template>
+          
+          <template v-slot:footer>
+            <div>footer</div>
+          </template>          
+        </layout>
       `
     })
 
-    app.component('my-form', {      
-      methods: {
-        handleClick() {
-          console.log("111")
-        }
-      },
-      // slot上无法绑定事件, div/参数/组件均可
+    app.component('layout', {      
       template: `
-        <div>          
-          <input type="text" />
-          <span @click="handleClick">
-            <slot>
-              default value
-            </slot>
-          </span>
-        </div> 
+        <div>
+          <slot name="header"></slot>
+          <div>content</div>
+          <slot name="footer"></slot>
+        </div>
       `
     })
     
