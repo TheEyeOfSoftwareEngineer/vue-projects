@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 18</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 1,
+        }
+      },
+      methods: {
+        handleAdd(num) {
+          this.count += num
+        },
+      },
+      template: `
+        <my-component 
+          :count="count"           
+          @add="handleAdd"  
+        >
+        </my-component>
+      `
+    })
+
+    app.component('my-component', {
+      props: ['count'],
+      // emits: ['add'],
+      emits: {
+        add: (count) => {
+          if(count > 0) {
+            return true;
+          }
+          return false;
+        }
+      },
+      methods: {
+        handleItemClick() {
+          // this.increment()  
+          this.$emit('add', 2)
+        }
+      },
+      template: `
+        <h1 @click="handleItemClick"> 
+          {{count}}  
+        </h1>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
