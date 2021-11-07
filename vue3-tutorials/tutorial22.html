@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 22</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 动态组件和异步组件
+    const app = Vue.createApp({
+      data() {
+        return {
+          currentItem: 'input-item'  
+        }
+      },
+      methods: {
+        handleToggle() {
+          this.currentItem = this.currentItem === 'input-item' ? 'common-item' : 'input-item'
+        }
+      },
+      template: `
+        <keep-alive>
+          <component :is="currentItem"></component>
+        </keep-alive>                
+        <button @click="handleToggle">Toggle</button>
+      `
+    })
+
+    app.component('input-item', {
+      template: `
+        <input />
+      `
+    })
+
+    app.component('common-item', {
+      template: `
+        <div>Hello world</div>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
