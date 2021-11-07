@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 23</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // v-once: only render once
+    // ref: ref to the component and DOM element
+    // provide / inject: provide and inject data to the component like context in the React
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 10,
+        }
+      },
+      // 非响应式的而是一次性的
+      provide() {
+        return {
+          count: this.count,
+        }
+      },
+      template: `
+        <div>
+          <child></child>
+        </div>
+      `
+    })
+
+    app.component('child', {
+      template: `
+        <grand-child></grand-child>
+      `
+    })
+
+    app.component('grand-child', {
+      inject: ['count'],
+      template: `
+        <div>Hello world: {{count}}</div>
+      `
+    })
+
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
