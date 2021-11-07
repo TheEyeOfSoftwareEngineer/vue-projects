@@ -15,42 +15,47 @@
       data() {
         return {
           count: 1,
+          count1: 1,
         }
       },
-      methods: {
-        handleAdd(num) {
-          this.count += num
-        },
-      },
       template: `
-        <my-component 
-          :count="count"           
-          @add="handleAdd"  
-        >
+        <my-component v-model="count">
         </my-component>
+        <my-component1 v-model:app="count1">
+        </my-component1>
       `
     })
 
+    // v-model改造
     app.component('my-component', {
-      props: ['count'],
-      // emits: ['add'],
-      emits: {
-        add: (count) => {
-          if(count > 0) {
-            return true;
-          }
-          return false;
-        }
-      },
+      // 名字必须叫modelValue
+      props: ['modelValue'],
       methods: {
         handleItemClick() {
-          // this.increment()  
-          this.$emit('add', 2)
+          // 触发事件名必须叫update:modelValue
+          this.$emit('update:modelValue', this.modelValue + 2)
         }
       },
       template: `
         <h1 @click="handleItemClick"> 
-          {{count}}  
+          {{modelValue}}  
+        </h1>
+      `
+    })
+
+    // v-model改造
+    app.component('my-component1', {
+      // 名字必须叫modelValue
+      props: ['app'],
+      methods: {
+        handleItemClick() {
+          // 触发事件名必须叫update:modelValue
+          this.$emit('update:app', this.app + 2)
+        }
+      },
+      template: `
+        <h1 @click="handleItemClick"> 
+          {{app}}  
         </h1>
       `
     })
