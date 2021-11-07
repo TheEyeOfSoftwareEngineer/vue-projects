@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 19</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 1,    
+          count1: 1,      
+        }
+      },
+      methods: {
+        handleChange(value) {
+          this.count1 = value
+        }
+      },
+      template: `
+        <my-component 
+          v-model:count="count" v-model:count1="count1"
+        >
+        </my-component>
+      `
+    })
+
+    app.component('my-component', {
+      props: ['count', 'count1'],
+      methods: {
+        handleItemClick() {
+          this.$emit('update:count', this.count + 2)
+        },
+        handleItemClick1() {
+          this.$emit('update:count1', this.count1 + 1)
+        }
+      },
+      template: `
+        <h1 @click="handleItemClick"> 
+          {{count}}  
+        </h1>
+        <h1 @click="handleItemClick1"> 
+          {{count1}}  
+        </h1>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
