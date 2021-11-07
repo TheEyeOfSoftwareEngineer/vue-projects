@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 16</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          content: {
+            a: 123,
+            b: 456,
+            c: 789,
+          }
+        }
+      },
+      template: `
+        <my-component :content="content" :content-id="content.a">
+        </my-component>
+      `
+    })
+
+    app.component('my-component', {
+      props: ['content', 'contentId'],
+      template: `
+        <div>
+          {{content.a}} {{content.b}} {{content.c}}
+        </div>
+        <h1>{{contentId}}</h1>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
