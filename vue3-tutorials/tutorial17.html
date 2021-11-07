@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 16</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          content: 1,
+        }
+      },
+      template: `
+        <my-component content="content" other="other">
+        </my-component>
+      `
+    })
+
+    app.component('my-component', {
+      // non-prop attributes are bound as regular data
+      // inheritAttrs: false,
+      mounted() {
+        console.log(this.$attrs)
+        console.log(this.$attrs.content)
+      },
+      template: `
+        <div>
+          <h1 :other="$attrs.other">message</h1>          
+          <h1 v-bind="$attrs">message</h1>          
+          <h1 :content="$attrs.content">message</h1>          
+        </div>
+      `
+    })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
