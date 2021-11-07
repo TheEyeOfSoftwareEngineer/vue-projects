@@ -11,7 +11,7 @@
   <div id="app"></div>
 
   <script>
-    // 动态组件和异步组件
+    // 动态组件和异步组件    
     const app = Vue.createApp({
       data() {
         return {
@@ -24,6 +24,12 @@
         }
       },
       template: `
+        <div>
+          <common-item></common-item>
+        </div>
+
+        <async-common-item></async-common-item>
+
         <keep-alive>
           <component :is="currentItem"></component>
         </keep-alive>                
@@ -42,6 +48,18 @@
         <div>Hello world</div>
       `
     })
+
+    app.component("async-common-item", Vue.defineAsyncComponent(() => {
+      return new Promise((resolev, reject) => {
+        setTimeout(() => {
+          resolev({
+            template: `
+              <div>Async Hello world</div>
+            `
+          })
+        }, 3000)
+      })
+    }))
     
     const vm = app.mount('#app')
   </script>
