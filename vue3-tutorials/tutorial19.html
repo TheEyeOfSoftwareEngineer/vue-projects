@@ -14,39 +14,36 @@
     const app = Vue.createApp({
       data() {
         return {
-          count: 1,    
-          count1: 1,      
-        }
-      },
-      methods: {
-        handleChange(value) {
-          this.count1 = value
+          count: 'a',    
         }
       },
       template: `
         <my-component 
-          v-model:count="count" v-model:count1="count1"
+          v-model.uppercase="count"
         >
         </my-component>
       `
     })
 
     app.component('my-component', {
-      props: ['count', 'count1'],
+      props: {
+        'modelValue': String,
+        'modelModifiers': {
+          default: () => ({}),
+        }
+      },
       methods: {
         handleItemClick() {
-          this.$emit('update:count', this.count + 2)
-        },
-        handleItemClick1() {
-          this.$emit('update:count1', this.count1 + 1)
+          let newValue = this.modelValue + 'b'
+          if(this.modelModifiers.uppercase) {
+            newValue = newValue.toUpperCase()
+          }
+          this.$emit('update:modelValue', newValue)
         }
       },
       template: `
         <h1 @click="handleItemClick"> 
-          {{count}}  
-        </h1>
-        <h1 @click="handleItemClick1"> 
-          {{count1}}  
+          {{modelValue}}  
         </h1>
       `
     })
