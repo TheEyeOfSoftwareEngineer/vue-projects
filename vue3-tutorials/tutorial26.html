@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 26</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    .v-leave-to,
+    .v-enter-from {
+      opacity: 0;
+    }
+    .v-leave-active,
+    .v-enter-active {
+      transition: opacity 3s ease-in;
+    }
+    .v-enter-to,
+    .v-leave-from {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 多个单元素/单组件切换
+
+    const componentA = {
+      template: `
+        <div>
+          <div>A</div>          
+        </div>
+      `      
+    }
+    const componentB = {
+      template: `
+        <div>
+          <div>B</div>          
+        </div>
+      `      
+    }
+    const app = Vue.createApp({
+      components: {
+        'component-a': componentA,
+        'component-b': componentB
+      },
+      data() {
+        return {
+          show: true,
+          component: 'component-a',
+        }
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show
+          this.component = this.component === 'component-a' ? 'component-b' : 'component-a'
+        },
+      },     
+      // mode: out-in / in-out               
+      // <div v-if="show">Hello World</div>
+      // <div v-else>Bye World</div>
+
+      // <component-a v-if="show"></component-a>
+      // <component-b v-else>Bye World</component-b>
+      template: `
+        <transition mode="out-in" appear>           
+          <component :is="component"></component>
+        </transition>                
+        <button @click="handleClick">click</button>        
+      `
+    })
+
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
