@@ -7,7 +7,7 @@
   <title>Tutorial 25</title>
   <script src="https://unpkg.com/vue@next"></script>
   <style>
-    @keyframes shake {
+    /* @keyframes shake {
       0% {
         transform: translateX(-100px)
       }
@@ -15,19 +15,27 @@
         transform: translateX(-50px)
       }
       100% {
-        tranform: translateX(50px)
+        transform: translateX(200px)
       }
     }
-    /* .v-enter-from {
+    /* .v-enter-from { 
       opacity: 0;
     } */
-    .hello-enter-active {
-      animation: shake 3s;      
+    /* .hello-leave-active {
+      animation: shake 3s;            
+    } */
+    /* .v-enter-from {
+      color: red;
     }
-    .hello-leave-active {
-      animation: shake 3s;      
-      /* transition: opacity 3s ease-out; */
+    .bye {
+      animation: shake 10s;
+      color: red;
+      transition: all 3s ease-in;
     }
+    .hello {
+      animation: shake 10s;      
+      transition: all 3s ease-in;
+    }     */
     /* .v-enter-to {
       opacity: 1;
     } */
@@ -56,11 +64,49 @@
       methods: {
         handleClick() {
           this.show = !this.show
-        }
+        },
+        hanldeBeforeEnter(el) {
+          el.style.color = 'red'
+        },
+        handleEnterActive(el, done) {
+          const animation = setInterval(() => {
+            const color = el.style.color
+            if(color === 'red') {
+              el.style.color = 'blue'
+            } else {
+              el.style.color = 'red'
+            }
+            done()
+          }, 1000)
+          setTimeout(() => {
+            clearInterval(animation)            
+            done()
+          }, 5000)          
+        },
+        hanldeAfterEnter(el) {
+          el.style.color = 'yellow'
+        },
       },
+      // type="transition"
+      // duration="4000" 
+      // <transition 
+      //   enter-active-class="hello"
+      //   leave-active-class="bye"
+      //   :duration="{enter: 3000, leave: 10000}" 
+      // >
+      //   <div v-show="show">Hello World</div>
+      // </transition>                
       template: `
-        <transition name="hello">
-          <h1 v-if="show" class="shake">Hello World</h1>
+        <transition 
+          :css="false"
+          @before-enter="handleBeforeEnter"
+          @enter="handleEnterActive"
+          @after-enter="handleAfterEnter"
+          @before-leave="handleBeforeLeave"
+          @leave="handleLeaveActive"
+          @after-leave="handleAfterLeave"
+        >
+          <div v-show="show">Hello World</div>
         </transition>                
         <button @click="handleClick">click</button>        
       `
