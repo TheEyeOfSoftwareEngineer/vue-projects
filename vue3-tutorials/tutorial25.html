@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 25</title>
+  <script src="https://unpkg.com/vue@next"></script>
+  <style>
+    @keyframes shake {
+      0% {
+        transform: translateX(-100px)
+      }
+      50% {
+        transform: translateX(-50px)
+      }
+      100% {
+        tranform: translateX(50px)
+      }
+    }
+    /* .v-enter-from {
+      opacity: 0;
+    } */
+    .hello-enter-active {
+      animation: shake 3s;      
+    }
+    .hello-leave-active {
+      animation: shake 3s;      
+      /* transition: opacity 3s ease-out; */
+    }
+    /* .v-enter-to {
+      opacity: 1;
+    } */
+    /* .v-leave-from {
+      opacity: 1;
+    } */
+    /* .v-leave-active {
+      transition: opacity 3s ease-in;
+    } */
+    /* .v-leave-to {
+      opacity: 0;
+    } */
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 单元素 出场入场动画
+    const app = Vue.createApp({
+      data() {
+        return {
+          show: true,
+        }
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show
+        }
+      },
+      template: `
+        <transition name="hello">
+          <h1 v-if="show" class="shake">Hello World</h1>
+        </transition>                
+        <button @click="handleClick">click</button>        
+      `
+    })
+
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
