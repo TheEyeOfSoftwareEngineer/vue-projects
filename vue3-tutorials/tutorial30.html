@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 30</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  <style>
+    .header {
+      position: absolute;
+    }
+  </style> 
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    // 自定义指令 directive
+
+    // const directives = {
+    //   focus: {
+    //     mounted(el) {
+    //       el.focus()
+    //     }
+    //   }
+    // }
+
+    const app = Vue.createApp({          
+      // directives,
+      data() {
+        return {
+          distance: 100,
+        }
+      },
+      template: `        
+        <div v-pos:left="distance" class="header">
+          <input v-model="distance" />
+        </div>
+        <div v-pos:top="distance" class="header">
+          <input v-model="distance" />
+        </div>
+      `
+    }) 
+    
+    app.directive('pos', (el, binding) => {
+      el.style[binding.arg] = (binding.value + 'px')
+    })
+
+    // app.directive('pos', {
+    //   mounted(el, binding) {
+    //     el.style.top = binding.value + 'px'
+    //   },
+    //   updated(el, binding) {
+    //     el.style.top = binding.value + 'px'
+    //   }
+    // })
+
+    app.directive('focus', {
+      beforeMount(el) {
+        console.log("before mount")
+      },
+      mounted(el) {
+        console.log("mounted")
+        el.focus()
+      },
+      beforeUpdate() {
+        console.log("before update")
+      },
+      updated() {
+        console.log("updated")
+      },
+      beforeUnmount() {
+        console.log("before unmount")
+      },
+      unmounted() {
+        console.log("unmounted")
+      }
+    })
+
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
