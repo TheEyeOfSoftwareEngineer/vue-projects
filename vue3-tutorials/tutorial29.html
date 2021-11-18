@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 29</title>
+  <script src="https://unpkg.com/vue@next"></script>  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // 组件data/methods优先级高于mixin
+    // 自定义属性 组件中的属性优先级均高于mixin中的属性
+    // mixin的生命周期函数优先执行，但两者均会执行
+    
+    const myMixin = {
+      // data() {
+      //   return {
+      //     number: 2,          
+      //   }
+      // },
+      number: 1,
+    }
+
+    const app = Vue.createApp({   
+      number: 2,   
+      
+      // data() {
+      //   return {
+      //     number: 1,          
+      //   }
+      // },      
+      mixins: [myMixin],
+      // created() {
+      //   console.log('app created')
+      // },
+      // methods: {
+      //   handleClick() {
+      //     console.log("handle click")              
+      //   },
+      // },  
+      // 所有的内容都会挂在$options上         
+      template: `        
+        <div>{{this.$options.number}}</div>
+      `
+    })
+
+    // 调整混入策略优先级
+    app.config.optionMergeStrategies.number = function (mixinVal, appVal) {
+      return mixinVal || appVal
+    }
+
+    // app.mixin({
+    //   data() {
+    //     return {
+    //       number: 2,
+    //       count: 23,
+    //     }
+    //   },
+    //   created() {
+    //     console.log('myMixin created')
+    //   },
+    //   methods: {
+    //     handleClick() {
+    //       this.number++
+    //     }
+    //   }
+    // })
+
+    // app.component('child', {
+    //   // mixins: [myMixin],
+    //   template: '<div>{{count}}</div>'
+    // })
+
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
