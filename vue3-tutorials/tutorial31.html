@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 31</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  <style>
+    .area {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background-color: green;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);      
+    }
+    .mask {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      background: #000;
+      opacity: 0.5;
+      color: #fff;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    
+    // teleport 传送门: 模态框/弹出层/蒙层
+    const app = Vue.createApp({                
+      data() {
+        return {
+          show: false,
+          message: 'Hello world',
+        }
+      },
+      methods: {
+        handleClick() {
+          this.show = !this.show
+        }
+      },
+      template: `        
+        <div class="area">
+          <button @click="handleClick">Button</button>          
+          <teleport to="body">
+            <div v-show="show" class="mask">
+              {{message}}
+            </div>
+          </teleport>
+        </div>        
+      `
+    }) 
+        
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
