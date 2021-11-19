@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 36</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    // ref: 处理**基本类型**的数据
+    // reactive(响应式应用，原理：通过proxy对数据进行封装，当数据变化时触发模版的更新),处理非基础类型的数据
+    const app = Vue.createApp({                            
+      template: `        
+        <h1>
+          name: {{ name }} - {{age}}
+        </h1>
+      `,      
+      setup(props, context) {
+        // const {ref} = Vue
+        // //通过proxy将jack变成响应式引用 proxy({value: 'jack'})
+        // let name = ref('jack')
+        // setTimeout(() => {
+        //   name.value = 'jill'
+        // }, 1000)
+        // return { name }
+
+        const { reactive, readonly, toRefs } = Vue
+        const nameObj = {
+          name: 'jack',
+          age: 18,
+        }
+        const state = reactive(nameObj)
+        // readonly是对响应式对象的一个包装，只读的对象
+        const readonlyState = readonly(state)
+        setTimeout(() => { 
+          state.name = 'jill'
+          // readonlyState.name = 'jill'          
+        }, 1000)
+
+        // toRefs():将proxy({name: 'jack'})转换为{name: proxy({value: 'jack'})}
+        // toRefs():将proxy({name: 'jack', age: 18})转换为{name: proxy({value: 'jack'}), age: proxy({value: 18})}
+        const {name, age} = toRefs(state)
+        return { name, age }
+      }
+    })    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
