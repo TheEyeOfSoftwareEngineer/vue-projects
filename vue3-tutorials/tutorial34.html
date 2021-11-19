@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 34</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+              
+    const app = Vue.createApp({                      
+      data() {
+        return {
+          name: 'jack',
+          age: 18,
+        }
+      },
+      rules: {
+        age: {
+          validate: age => age > 15,
+          message: 'age must be greater than 15'
+        },
+        name: {
+          validate: name => name.length > 3,
+          message: 'name must be greater than 3'
+        }
+      },
+      template: `        
+        <div>
+          name: {{ name }},
+          age: {{ age }}
+        </div>
+      `
+    })
+
+    const validatorPlugin = (app, options) => {
+      app.mixin({
+        created() {
+          for(let key in this.$options.rules) {
+            const item = this.$options.rules[key]
+            this.$watch(key, (val) => {
+              console.log(item, key, item.validate(key))
+              const result = item.validate(val)
+              if(!result) {
+                console.log(item.message)
+              } else {
+                console.log("valid")
+              }
+            })
+          }
+        },
+      })
+    }
+
+    app.use(validatorPlugin)
+
+    // app.mixin({
+    //   created() {
+    //     for(let key in this.$options.rules) {
+    //       const item = this.$options.rules[key]
+    //       this.$watch(key, (val) => {
+    //         console.log(item, key, item.validate(key))
+    //         const result = item.validate(val)
+    //         if(!result) {
+    //           console.log(item.message)
+    //         } else {
+    //           console.log("valid")
+    //         }
+    //       })
+    //     }
+    //   },
+    // })
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
