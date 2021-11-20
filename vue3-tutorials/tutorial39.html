@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 39</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    // setup computed   
+    const app = Vue.createApp({                 
+      setup() {
+        const {ref,computed} = Vue
+        const count = ref(0)
+        const setCount = (value) => {
+          count.value += 1
+        }
+        let countAddFive = computed({
+          get: () => count.value + 5,
+          set: (param) => {
+            count.value = param - 5
+          }
+        })
+        setTimeout(() => {
+          countAddFive.value = 100
+        }, 3000)
+        return {
+          count, setCount,
+          countAddFive
+        }
+      },                 
+      template: `        
+        <div>
+          <p @click="setCount">{{count}}</p>
+          <p>{{countAddFive}}</p>
+        </div>
+      `,                  
+    })  
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
