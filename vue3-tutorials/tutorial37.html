@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 37</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    
+    // toRef
+    const app = Vue.createApp({  
+      methods: {
+        handleChange() {
+          alert('change');
+        }
+      },                          
+      template: `        
+        <child @change="handleChange"></child>
+      `,     
+      // setup(props, context) {
+      //   const {reactive, toRef} = Vue;
+      //   const data = reactive({
+      //     name: 'jack',
+      //   })        
+      //   const age = toRef(data, 'age')
+      //   setTimeout(() => {
+      //     age.value = 'jill'
+      //   }, 1000)
+      //   return {age}
+      // }       
+    })  
+    app.component("child" , {
+      template: `        
+        <h1 @click="handleClick">
+          child
+        </h1>
+      `,     
+      setup(props, context) {
+        // const {h} = Vue
+        const {attrs, slots, emit} = context
+        // attrs: non-props属性，即不通过props接收的prop数据
+        // return () => h('div', {}, slots.default())
+        // function handleClick() {
+        //   emit('change')
+        // }
+        const handleClick = () => {
+          emit('change')
+        }
+        return {
+          handleClick
+        }
+      }       
+    })  
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
