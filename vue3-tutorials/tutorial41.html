@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 41</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    
+    // life-cycle hooks: 无created和beforeCreated因为setup在两者之行中间 
+    /**
+     * onBeforeMount
+     * onMounted
+     * onBeforeUpdate
+     * onUpdated
+     * onBeforeUnmount
+     * onUnmounted  
+     * onRenderTracked // 监听渲染和响应式依赖
+     * onRenderTriggered // 触发页面重新渲染
+     */
+     const app = Vue.createApp({                 
+      setup() {        
+        const {ref, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onRenderTracked, onRenderTriggered} = Vue
+        onBeforeMount(() => {
+          console.log('onBeforeMount')
+        })
+        onMounted(() => {
+          console.log('onMounted')
+        })  
+        onBeforeUpdate(() => {
+          console.log('onBeforeUpdate')
+        })
+        onUpdated(() => {
+          console.log('onUpdated')
+        })
+        onRenderTracked(() => {
+          console.log('onRenderTracked')
+        })
+        onRenderTriggered(() => {
+          console.log('onRenderTrigger')
+        })
+        const name = ref('John')        
+        const setName = (newName) => {
+          name.value = 'Jackcy'
+        }
+        return {          
+          name,
+          setName
+        }      
+      },                 
+      template: `        
+        <div>
+          Name is {{name}}
+          <button @click="setName">Change Name</button>          
+        </div>
+      `,                  
+    })  
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
