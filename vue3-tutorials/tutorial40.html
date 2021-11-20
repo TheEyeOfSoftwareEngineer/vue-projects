@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial 40</title>
+  <script src="https://unpkg.com/vue@next"></script> 
+  
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>  
+    // watch: lazyly watch for changes
+    // watchEffect偏向于effect: immediately watch for changes 自动执行内部的依赖，不需要手动执行；不能获取数据之前的值
+    const app = Vue.createApp({                 
+      setup() {
+        //const {ref, watch} = Vue
+        // const name = ref('John')
+        // 具备一定的惰性 lazy
+        // 参数可以拿到新值和旧值
+        // watch(name, (value) => {
+        //   console.log(`name changed to ${value}`)
+        // })
+        const {reactive, toRefs, watch, watchEffect} = Vue
+        const nameObj = reactive({
+          name: 'john',
+          age: 18
+        })
+        
+        watch([() => nameObj.name, () => nameObj.age], ([newName, newAge], [oldName, oldAge]) => {
+          console.log(`watch: name changed to ${newName}, age changed to ${newAge}`)          
+        }, {
+          immediate: true,
+          deep: true
+        })
+        
+        const watcher = watchEffect(() => {
+          console.log(`watchEffect: name changed to ${nameObj.name}, age changed to ${nameObj.age}`)
+          setTimeout(() => {
+            watcher()
+          }, 5000)
+        })
+
+        const {name, age} = toRefs(nameObj)
+        return {
+          name,
+          age,
+        }
+      },                 
+      template: `        
+        <div>
+          name: <input v-model="name" type="text" />          
+        </div>
+        name is {{name}}
+        <div>
+          age: <input v-model="age" type="text" />          
+        </div>
+        age is {{age}}
+      `,                  
+    })  
+    
+    const vm = app.mount('#app')
+  </script>
+</body>
+</html>
